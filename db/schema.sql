@@ -4,8 +4,8 @@ USE employee_db;
 
 
 CREATE TABLE department (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(30) NOT NULL
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  department_name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE role (

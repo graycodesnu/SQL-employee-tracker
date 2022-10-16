@@ -1,6 +1,4 @@
-INSERT INTO department
-(name)
-
+INSERT INTO department (department_name)
 VALUES 
   ('Legal'),
   ('Engineering'),
@@ -36,3 +34,4 @@ VALUES
   ('Fred', 'Flinstone', 12, 4),
   ('Clayton', 'Kershaw', 13, 5),
   ('Mookie', 'Betts', 14, 5);
+
