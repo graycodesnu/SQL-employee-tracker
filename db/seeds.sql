@@ -1,4 +1,4 @@
-INSERT INTO department (department_name)
+INSERT INTO department (name) 
 VALUES 
   ('Legal'),
   ('Engineering'),
@@ -10,11 +10,11 @@ INSERT INTO role
   (title, salary, department_id)
 
 VALUES 
-  ('Family Lawyer', '$5', 1),
-  ('Software Engineer' '$3', 2),
-  ('Chef / Expert Meower', '$100', 3),
-  ('Professional Sunbather', '$500', 4),
-  ('Expert Goofball', '$100', 5);
+  ('Family Lawyer', 5.00, 1),
+  ('Software Engineer' 3.00, 2),
+  ('Chef / Expert Meower', 100.00, 3),
+  ('Professional Sunbather', 500.00, 4),
+  ('Expert Goofball', 100.00, 5);
 
 INSERT INTO employee
   (first_name, last_name, role_id, manager_id)
