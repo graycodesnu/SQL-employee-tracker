@@ -172,7 +172,7 @@ const promptAddRole = () => {
       })
 }
 
-// TODO: Add Employee 
+// Add Employee 
 const promptAddEmployee = () => {
 
   return connection.promise().query(
@@ -254,8 +254,23 @@ const promptAddEmployee = () => {
       })
     })
 }
+
 // TODO: Update Employee Role
+const promptUpdateRole = () => {
+  return connection.promise().query(
+    "SELECT R.id, R.title, R.salary, R.department_id FROM role R;"
+  )
+  .then(([roles]) = () => {
+    let roleOptions = roles.map(({
+      id, 
+      title
+    }) => ({
+      value: id,
+      name: title
+    }));
+  }
+  )
+}
 
-
-// Initialize Inquirer
+// Initialize 
 promptMenu();
