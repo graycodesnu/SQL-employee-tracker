@@ -268,9 +268,51 @@ const promptUpdateRole = () => {
       value: id,
       name: title
     }));
-  }
-  )
-}
+    inquirer.prompt(
+      [
+        {
+          type: 'list',
+          name: 'role',
+          message: 'Please select the role you want to update.',
+          choices: roleOptions
+        }
+      ]
+    )
+      .then (role => {
+        console.log(role);
+        inquirer.prompt(
+          [
+            {
+              type: 'input',
+              name: 'salary',
+              message: 'Please the salary for this role',
+              validate: salary => {
+                if (salary) {
+                  return true
+              } else {
+                console.log('This field is required. Please enter the salary for this role.');
+                return false;
+              }
+            }
+          }]
+        )
+        .then(({ title, salary }) => { 
+          const query = connection.query(
+          // TODO: Enter query here
+            [
+              title, 
+              salary,
+              role.role
+            ],
+            function (err, res) {
+              if (err) throw err;
+            }
+          )
+        }) .then(() => promptMenu())
+      })
+    }
+  );
+};
 
 // Initialize 
 promptMenu();
