@@ -105,7 +105,7 @@ const promptAddDepartment = () => {
       })
 }
 
-// TODO: Add Role
+// Add Role
 const promptAddRole = () => {
 
   return connection.promise().query(
@@ -179,7 +179,7 @@ const promptAddEmployee = () => {
     "SELECT R.id, R.title FROM role R;"
   )
     .then(([employees]) => {
-      let departmentChoices = departments.map(({
+      let titleOptions = employees.map(({
         id,
         title
       }) => ({
@@ -188,8 +188,8 @@ const promptAddEmployee = () => {
       }))
 
       connection.promise().query(
-        "SELECT E.id CONCAT(E.first_name, ' ',E.last_name) AS manager FROM employee E;"
-      ) .then(([managers]) => {
+        "SELECT E.id, CONCAT(E.first_name,' ',E.last_name) AS manager FROM employee E;"
+        ) .then(([managers]) => {
           let managerOptions = managers.map(({
             id, 
             manager
@@ -201,7 +201,7 @@ const promptAddEmployee = () => {
           inquirer.prompt(
             [{
               type: 'input',
-              name: 'title',
+              name: 'firstName',
               message: 'Please enter the employees first name.',
               validate: firstName => {
                 if (firstName) {
@@ -213,7 +213,7 @@ const promptAddEmployee = () => {
             },
             {
               type: 'input',
-              name: 'title',
+              name: 'lastName',
               message: 'Please enter the employees last name.',
               validate: lastName => {
                 if (lastName) {
@@ -231,15 +231,27 @@ const promptAddEmployee = () => {
             },
             {
               type: 'list',
-              name: 'role',
+              name: 'manager',
               message: 'Please select the new employees manager.',
               choices: managerOptions
             }
-          ]
-          )
+          ])
+          .then(({ firstName, lastName, role, manager }) => {
+            const query = connection.query(
+              "INSERT INTO employee SET ?", 
+              {
+              first_name: firstName,
+              last_name: lastName,
+              role_id: role, 
+              manager_id: manager
+              },
+              function (err, res) {
+                if (err) throw err;
+                console.log({ role, manager }, 'Employee add error!')
+              }
+            )
+          }).then(() => selectEmployees())
       })
-
-
     })
 }
 // TODO: Update Employee Role
