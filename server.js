@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 const fs = require("fs");
 const mysql = require('mysql2');
+const { title } = require('process');
 require('console.table');
 
 // create the connection to database
@@ -172,7 +173,75 @@ const promptAddRole = () => {
 }
 
 // TODO: Add Employee 
+const promptAddEmployee = () => {
 
+  return connection.promise().query(
+    "SELECT R.id, R.title FROM role R;"
+  )
+    .then(([employees]) => {
+      let departmentChoices = departments.map(({
+        id,
+        title
+      }) => ({
+        value: id,
+        name: title
+      }))
+
+      connection.promise().query(
+        "SELECT E.id CONCAT(E.first_name, ' ',E.last_name) AS manager FROM employee E;"
+      ) .then(([managers]) => {
+          let managerOptions = managers.map(({
+            id, 
+            manager
+          }) => ({
+            value: id, 
+            name: manager
+          }));
+          
+          inquirer.prompt(
+            [{
+              type: 'input',
+              name: 'title',
+              message: 'Please enter the employees first name.',
+              validate: firstName => {
+                if (firstName) {
+                  return true;
+                } else {
+                  console.log('This field is required. Please enter the employees first name.')
+                }
+              }
+            },
+            {
+              type: 'input',
+              name: 'title',
+              message: 'Please enter the employees last name.',
+              validate: lastName => {
+                if (lastName) {
+                  return true;
+                } else {
+                  console.log('This field is required. Please enter the employees last name.')
+                }
+              }
+            },
+            {
+              type: 'list',
+              name: 'role',
+              message: 'Please select the new employees role.',
+              choices: titleOptions
+            },
+            {
+              type: 'list',
+              name: 'role',
+              message: 'Please select the new employees manager.',
+              choices: managerOptions
+            }
+          ]
+          )
+      })
+
+
+    })
+}
 // TODO: Update Employee Role
 
 
