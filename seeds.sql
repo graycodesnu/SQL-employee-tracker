@@ -25,11 +25,10 @@ VALUES
   ('Frankie', 'Harvey', 5, NULL),
   ('Lightning', 'McQueen', 1, 1),
   ('Tow', 'Mater', 1, 1),
-  ('Beckett', 'Costello', 2, 1),
+  ('Beckett', 'Costello', 2, 2),
   ('Susie', 'Sorensen', 2, 2),
-  ('Stinky', 'Jones', 3, 2),
-  ('Guy', 'Fieri', 4, 3), 
+  ('Stinky', 'Jones', 3, 3),
+  ('Guy', 'Fieri', 4, 4), 
   ('Fred', 'Flinstone', 4, 4),
   ('Clayton', 'Kershaw', 5, 5),
-  ('Mookie', 'Betts', 4, 5);
-
+  ('Mookie', 'Betts', 4, 4);

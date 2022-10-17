@@ -12,6 +12,8 @@ var connection = mysql.createConnection({
 })
 // console.log(connection, 'Connected!');
 
+
+// Menu 
 const promptMenu = () => {
   return inquirer.prompt([
     {
@@ -50,15 +52,17 @@ const promptMenu = () => {
     });
 };
 
+// View Departments
 const selectDepartments = () => {
   connection.query(
     'SELECT * FROM department;', 
     (err, results) => {
-      console.log(results);
+      console.table(results);
       promptMenu();
     });
 };
 
+// View Roles
 const selectRoles = () => {
   connection.query(
       'SELECT * FROM role;',
@@ -68,6 +72,7 @@ const selectRoles = () => {
       });
 };
 
+// View Employees
 const selectEmployees = () => {
   connection.query(
       "SELECT E.id, E.first_name, E.last_name, R.title, D.name AS department, R.salary, CONCAT(M.first_name,' ',M.last_name) AS manager FROM employee E JOIN role R ON E.role_id = R.id JOIN department D ON R.department_id = D.id LEFT JOIN employee M ON E.manager_id = M.id;",
@@ -77,6 +82,7 @@ const selectEmployees = () => {
       });
 };
 
+// Add Department 
 const promptAddDepartment = () => {
   inquirer.prompt([{
       type: 'input',
@@ -98,4 +104,77 @@ const promptAddDepartment = () => {
       })
 }
 
+// TODO: Add Role
+const promptAddRole = () => {
+
+  return connection.promise().query(
+      "SELECT department.id, department.name FROM department;"
+  )
+      .then(([departments]) => {
+          let departmentChoices = departments.map(({
+              id,
+              name
+          }) => ({
+              name: name,
+              value: id
+          }));
+
+          inquirer.prompt(
+              [{
+                  type: 'input',
+                  name: 'title',
+                  message: 'Please enter the new role title.',
+                  validate: titleName => {
+                      if (titleName) {
+                          return true;
+                      } else {
+                          console.log('This field is required. Please enter the new role title.');
+                          return false;
+                      }
+                  }
+              },
+              {
+                  type: 'list',
+                  name: 'department',
+                  message: 'To which department does this role belong?',
+                  choices: departmentChoices
+              },
+              {
+                  type: 'input',
+                  name: 'salary',
+                  message: 'Please enter the salary for this new role.',
+                  validate: salary => {
+                      if (salary) {
+                          return true;
+                      } else {
+                          console.log('This field is required. Please enter the salary for this new role.');
+                          return false;
+                      }
+                  }
+              }
+              ]
+          )
+              .then(({ title, department, salary }) => {
+                  const query = connection.query(
+                      'INSERT INTO role SET ?',
+                      {
+                          title: title,
+                          department_id: department,
+                          salary: salary
+                      },
+                      function (err, res) {
+                          if (err) throw err;
+                      }
+                  )
+              }).then(() => selectRoles())
+
+      })
+}
+
+// TODO: Add Employee 
+
+// TODO: Update Employee Role
+
+
+// Initialize Inquirer
 promptMenu();
