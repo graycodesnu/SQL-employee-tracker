@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 const fs = require("fs");
 const mysql = require('mysql2');
-const { title } = require('process');
+// const { exit } = require('process');
 require('console.table');
 
 // create the connection to database
@@ -47,8 +47,9 @@ const promptMenu = () => {
         case 'update employee role':
           promptUpdateRole();
           break;
-        default:
-          process.exit();
+        case 'exit':
+          exit();
+          default: 
       }
     });
 };
@@ -259,59 +260,80 @@ const promptAddEmployee = () => {
 const promptUpdateRole = () => {
   return connection.promise().query(
     "SELECT R.id, R.title, R.salary, R.department_id FROM role R;"
-  )
-  .then(([roles]) = () => {
-    let roleOptions = roles.map(({
-      id, 
-      title
-    }) => ({
-      value: id,
-      name: title
-    }));
-    inquirer.prompt(
-      [
-        {
-          type: 'list',
-          name: 'role',
-          message: 'Please select the role you want to update.',
-          choices: roleOptions
-        }
-      ]
-    )
-      .then (role => {
-        console.log(role);
+)
+    .then(([roles]) => {
+        let roleOptions = roles.map(({
+            id,
+            title
+
+        }) => ({
+            value: id,
+            name: title
+        }));
+
         inquirer.prompt(
-          [
-            {
-              type: 'input',
-              name: 'salary',
-              message: 'Please the salary for this role',
-              validate: salary => {
-                if (salary) {
-                  return true
-              } else {
-                console.log('This field is required. Please enter the salary for this role.');
-                return false;
-              }
-            }
-          }]
-        )
-        .then(({ title, salary }) => { 
-          const query = connection.query(
-          // TODO: Enter query here
             [
-              title, 
-              salary,
-              role.role
-            ],
-            function (err, res) {
-              if (err) throw err;
-            }
-          )
-        }) .then(() => promptMenu())
-      })
+                {
+                    type: 'list',
+                    name: 'role',
+                    message: 'Please select the role you want to update.',
+                    choices: roleOptions
+                },
+            ]
+        )
+            .then(role => {
+                console.log(role);
+                inquirer.prompt(
+                    [{
+                        type: 'input',
+                        name: 'title',
+                        message: 'Please enter the roles new title.',
+                        validate: titleName => {
+                            if (titleName) {
+                                return true;
+                            } else {
+                                console.log('This field is required. Please enter the roles new title.');
+                                return false;
+                            }
+                        }
+                    },
+                    {
+                        type: 'input',
+                        name: 'salary',
+                        message: 'Enter your salary (Required)',
+                        validate: salary => {
+                            if (salary) {
+                                return true;
+                            } else {
+                                console.log('This field is required. Please enter the roles new salary.');
+                                return false;
+                            }
+                        }
+                    }]
+                )
+                    .then(({ title, salary }) => {
+                        const query = connection.query(
+                            'UPDATE role SET title = ?, salary = ? WHERE id = ?',
+                            [
+                                title,
+                                salary
+                                ,
+                                role.role
+                            ],
+                            function (err, res) {
+                                if (err) throw err;
+                            }
+                        )
+                    })
+                    .then(() => promptMenu())
+            })
     }
   );
+};
+
+const exit = () => {
+  console.log('Exiting.');
+  return
 };
 
 // Initialize 
