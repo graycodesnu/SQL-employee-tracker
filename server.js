@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 const fs = require("fs");
 const mysql = require('mysql2');
-// const { exit } = require('process');
+const { exit } = require('process');
 require('console.table');
 
 // create the connection to database
@@ -47,9 +47,8 @@ const promptMenu = () => {
         case 'update employee role':
           promptUpdateRole();
           break;
-        case 'exit':
-          exit();
-          default: 
+        default:
+          process.exit();
       }
     });
 };
@@ -329,11 +328,6 @@ const promptUpdateRole = () => {
             })
     }
   );
-};
-
-const exit = () => {
-  console.log('Exiting.');
-  return
 };
 
 // Initialize 
