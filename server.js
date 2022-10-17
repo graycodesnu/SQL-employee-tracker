@@ -10,7 +10,7 @@ var connection = mysql.createConnection({
   database: 'employee_db',
   password: ''
 })
-console.log(connection, 'Connected!');
+// console.log(connection, 'Connected!');
 
 const promptMenu = () => {
   return inquirer.prompt([
@@ -98,3 +98,4 @@ const promptAddDepartment = () => {
       })
 }
 
+promptMenu();
