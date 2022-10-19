@@ -1,9 +1,11 @@
 # SQL Employee Tracker
 
 ## Introduction
-This project is a result of our bootcamp's week 12 homework assignment. Students were expected to create an employee tracker for an organization and their database using Node.js, My SQL, and Inquirer.js. The project repository can be found [here](https://github.com/graycodesnu/SQL-employee-tracker) and the demo video can be found [here]().
+This project is a result of our bootcamp's week 12 homework assignment. Students were expected to create an employee tracker for an organization and their database using Node.js, My SQL, and Inquirer.js. The project repository can be found [here](https://github.com/graycodesnu/SQL-employee-tracker) and the demo video can be found [here](https://watch.screencastify.com/v/ss4cCYBkBQcshhHqMTLa).
 
-![]()
+![](assets/promptinq.png)
+![](/assets/addrole.png)
+![](assets/updaterole.png)
 
 ## Goals 
 

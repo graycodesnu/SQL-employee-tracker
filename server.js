@@ -41,7 +41,7 @@ const promptMenu = () => {
         case 'add a role':
           promptAddRole();
           break;
-        case 'add an employee':
+        case 'add employee':
           promptAddEmployee();
           break;
         case 'update employee role':
@@ -299,7 +299,7 @@ const promptUpdateRole = () => {
                     {
                         type: 'input',
                         name: 'salary',
-                        message: 'Enter your salary (Required)',
+                        message: 'Enter your salary',
                         validate: salary => {
                             if (salary) {
                                 return true;
