@@ -21,7 +21,7 @@ const promptMenu = () => {
       type: 'list',
       name: 'menu',
       message: 'Please select an action.',
-      choices: ['view all departments', 'view all roles', 'view all employees', 'add a department', 'add a role', 'add an employee', 'update an employee role', 'exit']
+      choices: ['view all departments', 'view all roles', 'view all employees', 'add a department', 'add a role', 'add employee', 'update employee role', 'exit']
     }])
 
     .then(userOptions => {
@@ -269,7 +269,7 @@ const promptUpdateRole = () => {
             value: id,
             name: title
         }));
-
+        
         inquirer.prompt(
             [
                 {
